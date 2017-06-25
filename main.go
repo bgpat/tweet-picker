@@ -34,7 +34,7 @@ func main() {
 			case *twtr.Tweet:
 				id := data.IDStr
 				tweet := fmt.Sprintf("@%s %s", data.User.ScreenName, data.Text)
-				err := client.Database.Set(id, tweet, expiration).Err()
+				err := client.Cache.Set(id, tweet, expiration).Err()
 				if err != nil {
 					log.Println("error: ", err.Error())
 					break
@@ -42,13 +42,13 @@ func main() {
 			case *twtr.StreamingTweetEvent:
 				id := data.TargetObject.IDStr
 				tweet := fmt.Sprintf("@%s %s", data.TargetObject.User.ScreenName, data.TargetObject.Text)
-				err := client.Database.Set(id, tweet, expiration).Err()
+				err := client.Cache.Set(id, tweet, expiration).Err()
 				if err != nil {
 					log.Println("error: ", err.Error())
 					break
 				}
 			case *twtr.StreamingDeleteTweetEvent:
-				tweet := client.Database.GetString(data.Delete.Status.IDStr, data.Delete.Status.IDStr)
+				tweet := client.Cache.GetString(data.Delete.Status.IDStr, data.Delete.Status.IDStr)
 				log.Printf("delete tweet: %s\n", tweet)
 			default:
 				log.Printf("continue: %T\n", event)

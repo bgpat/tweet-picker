@@ -3,7 +3,7 @@ package client
 import (
 	"os"
 
-	"github.com/bgpat/tweet-picker/database"
+	"github.com/bgpat/tweet-picker/client/cache"
 	"github.com/bgpat/twtr"
 )
 
@@ -15,20 +15,20 @@ var (
 )
 
 type Client struct {
-	*database.Database
+	*cache.Cache
 	*twtr.Client
 }
 
 func New() (*Client, error) {
-	db, err := database.New()
+	c, err := cache.New()
 	if err != nil {
 		return nil, err
 	}
 	consumer := twtr.NewCredentials(consumerKey, consumerSecret)
 	token := twtr.NewCredentials(accessToken, accessSecret)
 	client := Client{
-		Database: db,
-		Client:   twtr.NewClient(consumer, token),
+		Cache:  c,
+		Client: twtr.NewClient(consumer, token),
 	}
 	return &client, nil
 }
