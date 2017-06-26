@@ -8,5 +8,5 @@ services:
     image: bgpat/tweet-picker:latest
     #build: .
     environment:
-      REDIS_URL: cache://redis:6379/
+      REDIS_URL: redis://cache:6379/
     env_file: ./.env
