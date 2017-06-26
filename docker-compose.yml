@@ -1,11 +1,12 @@
 version: "3"
 services:
-  redis:
+  cache:
     image: redis:3.0.7-alpine
     ports:
       - "6379"
   worker:
-    build: .
+    image: bgpat/tweet-picker:latest
+    #build: .
     environment:
-      REDIS_URL: redis://redis:6379/
+      REDIS_URL: cache://redis:6379/
     env_file: ./.env
