@@ -2,7 +2,6 @@ package models
 
 import (
 	"encoding/json"
-	"log"
 	"strconv"
 	"time"
 )
@@ -29,7 +28,6 @@ func (t *Tweet) MarshalJSON() ([]byte, error) {
 	tweet := map[string]interface{}{}
 	err := json.Unmarshal([]byte(t.JSON), &tweet)
 	if err != nil {
-		log.Fatalf("%+v\n%+v\n", err, t.JSON)
 		return nil, err
 	}
 	tweet["deleted_at"] = t.DeletedAt
