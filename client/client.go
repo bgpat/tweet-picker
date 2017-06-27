@@ -25,7 +25,7 @@ type Client struct {
 	*twtr.Client
 	*twtr.Streaming
 	Expiration     time.Duration
-	DeletedTweet   chan *twtr.Tweet
+	DeletedTweet   chan *Tweet
 	StreamingError chan error
 }
 
@@ -75,7 +75,7 @@ func (c *Client) decodeStreaming() {
 			case *twtr.StreamingTweetEvent:
 				err = c.storeTweet(&data.TargetObject)
 			case *twtr.StreamingDeleteTweetEvent:
-				err = c.pickupTweet(data.Delete.Status.IDStr)
+				err = c.pickupTweet(data)
 			default:
 				err = fmt.Errorf("unhandled event: %+v", data)
 			}
@@ -97,9 +97,16 @@ func (c *Client) storeTweet(tweet *twtr.Tweet) error {
 	return nil
 }
 
-func (c *Client) pickupTweet(id string) error {
-	buf, err := c.Cache.Get(id).Bytes()
+func (c *Client) pickupTweet(event *twtr.StreamingDeleteTweetEvent) error {
+	timestamp, err := strconv.ParseInt(event.Delete.TimestampMS, 10, 64)
+	deletedAt := time.Unix(timestamp/1000, (timestamp-timestamp/1000*1000)*10e6)
+	buf, err := c.Cache.Get(event.Delete.Status.IDStr).Bytes()
 	if err != nil {
+		c.DeletedTweet <- &Tweet{
+			ID:        event.Delete.Status.ID.ID,
+			UserID:    event.Delete.Status.UserID,
+			DeletedAt: deletedAt,
+		}
 		return err
 	}
 	tweet := twtr.Tweet{}
@@ -107,6 +114,11 @@ func (c *Client) pickupTweet(id string) error {
 	if err := decoder.Decode(&tweet); err != nil {
 		return err
 	}
-	c.DeletedTweet <- &tweet
+	c.DeletedTweet <- &Tweet{
+		Tweet:     &tweet,
+		ID:        event.Delete.Status.ID.ID,
+		UserID:    event.Delete.Status.UserID,
+		DeletedAt: deletedAt,
+	}
 	return nil
 }
