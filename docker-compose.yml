@@ -1,12 +1,19 @@
 version: "3"
 services:
-  cache:
-    image: redis:3.0.7-alpine
-    ports:
-      - "6379"
-  worker:
+  web:
     image: bgpat/tweet-picker:latest
     #build: .
     environment:
       REDIS_URL: redis://cache:6379/
+      DATABASE_URL: postgres://tweet-picker:tweet-picker@db:5432/tweet-picker?sslmode=disable
     env_file: ./.env
+    ports:
+      - "8080"
+  cache:
+    image: redis:3.0.7-alpine
+  db:
+    image: postgres:9.6.3-alpine
+    environment:
+      POSTGRES_PASSWORD: "tweet-picker"
+      POSTGRES_USER: "tweet-picker"
+      POSTGRES_DB: "tweet-picker"
