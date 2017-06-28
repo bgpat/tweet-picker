@@ -3,13 +3,15 @@ package models
 import (
 	"encoding/json"
 	"strconv"
+	"time"
 )
 
 type User struct {
-	ID         int64    `gorm:"primary_key,AUTO_INCREMENT" json:"id,string"`
-	ScreenName string   `json:"screen_name"`
-	JSON       string   `json:"json"`
-	Tweets     []*Tweet `json:"tweets,omitempty"`
+	ID         int64      `gorm:"primary_key,AUTO_INCREMENT" json:"id,string"`
+	ScreenName string     `json:"screen_name"`
+	UpdatedAt  *time.Time `json:"updated_at"`
+	JSON       string     `json:"json"`
+	Tweets     []*Tweet   `json:"tweets,omitempty"`
 }
 
 func (u *User) MarshalJSON() ([]byte, error) {
