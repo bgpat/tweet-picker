@@ -1,10 +1,12 @@
 Vue.use(VueMaterial);
+moment.locale('ja');
 
 const app = new Vue({
   el: "#app",
   data: {
     tweets: [],
     users: [],
+    tweet: {},
   },
   methods: {
     toggleUserList() {
@@ -21,6 +23,13 @@ const app = new Vue({
         this.tweets = resp.body;
         this.$refs.userList.close();
       });
+    },
+    showTweetDetail(tweet) {
+      if (tweet.text == null) {
+        return;
+      }
+      this.tweet = tweet;
+      this.$refs.tweetDetail.open();
     },
   },
   mounted() {

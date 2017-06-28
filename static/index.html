@@ -18,12 +18,16 @@
               <span>All Users</span>
             </div>
           </md-list-item>
-          <md-list-item v-for="user in users" :href="`#${user.id}`" @click="getUserTweets(user.id)">
+          <md-list-item v-for="user in users" :href="`#@${user.id}`" @click="getUserTweets(user.id)">
             <md-avatar>
               <img :src="user.profile_image_url_https" />
             </md-avatar>
             <div class="md-list-text-container">
-              <span>{{ user.name }}</span>
+              <span>
+                {{ user.name }}
+                  <md-icon v-if="user.verified">check_circle</md-icon>
+                  <md-icon v-if="user.protected">lock</md-icon>
+              </span>
               <span>@{{ user.screen_name }}</span>
             </div>
           </md-list-item>
@@ -39,12 +43,17 @@
 
       <main class="main-content">
         <md-list class="md-double-line">
-          <md-list-item v-for="tweet in tweets">
+          <md-list-item v-for="tweet in tweets" :href="`#${tweet.id}`" @click="showTweetDetail(tweet)">
             <md-avatar v-if="tweet.user">
               <img :src="tweet.user.profile_image_url_https" />
             </md-avatar>
             <div class="md-list-text-container" v-if="tweet.text">
-              <span>{{ tweet.user.name }} @{{ tweet.user.screen_name }}</span>
+              <span>
+                {{ tweet.user.name }}
+                <md-icon v-if="tweet.user.verified">check_circle</md-icon>
+                <md-icon v-if="tweet.user.protected">lock</md-icon>
+                <small>@{{ tweet.user.screen_name }}</small>
+              </span>
               <span>{{ tweet.text }}</span>
             </div>
             <div class="md-list-text-container" v-if="!tweet.text">
@@ -54,10 +63,36 @@
           </md-list-item>
         </md-list>
       </main>
+
+      <md-dialog ref="tweetDetail">
+        <md-dialog-title v-if="tweet.user">
+          <md-list class="md-double-line">
+            <md-list-item>
+              <md-avatar>
+                <img :src="tweet.user.profile_image_url_https" />
+              </md-avatar>
+              <div class="md-list-text-container">
+                <span>
+                  {{ tweet.user.name }}
+                  <md-icon v-if="tweet.user.verified">check_circle</md-icon>
+                  <md-icon v-if="tweet.user.protected">lock</md-icon>
+                </span>
+                <span>@{{ tweet.user.screen_name }}</span>
+              </div>
+            </md-list-item>
+          </md-list>
+        </md-dialog-title>
+        <md-dialog-content>
+          <pre>{{ tweet.text }}</pre>
+          <small>{{ moment(new Date(tweet.created_at)).format('LLLL') }}</small>
+        </md-dialog-content>
+      </md-dialog>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.3.4/vue-resource.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-material/0.7.4/vue-material.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/locale/ja.js"></script>
     <script src="/js/index.js"></script>
   </body>
 </html>
