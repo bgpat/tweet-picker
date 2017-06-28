@@ -12,9 +12,8 @@ var db = database.Default()
 
 func GetTweets(c *gin.Context) {
 	tweets := []*models.Tweet{}
-	err := db.Unscoped().Find(&tweets)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+	errs := db.Unscoped().Find(&tweets).GetErrors()
+	if ReturnErrors(c, errs) {
 		return
 	}
 	c.JSON(http.StatusOK, tweets)
@@ -23,9 +22,8 @@ func GetTweets(c *gin.Context) {
 func GetTweet(c *gin.Context) {
 	id := c.Param("id")
 	tweet := models.Tweet{}
-	err := db.Unscoped().First(&tweet, id)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+	errs := db.Unscoped().First(&tweet, id).GetErrors()
+	if ReturnErrors(c, errs) {
 		return
 	}
 	c.JSON(http.StatusOK, &tweet)
@@ -33,9 +31,8 @@ func GetTweet(c *gin.Context) {
 
 func GetUsers(c *gin.Context) {
 	users := []*models.User{}
-	err := db.Find(&users)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+	errs := db.Find(&users).GetErrors()
+	if ReturnErrors(c, errs) {
 		return
 	}
 	c.JSON(http.StatusOK, users)
@@ -44,9 +41,8 @@ func GetUsers(c *gin.Context) {
 func GetUser(c *gin.Context) {
 	id := c.Param("user_id")
 	user := models.User{}
-	err := db.First(&user, id)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+	errs := db.First(&user, id).GetErrors()
+	if ReturnErrors(c, errs) {
 		return
 	}
 	c.JSON(http.StatusOK, &user)
@@ -55,9 +51,8 @@ func GetUser(c *gin.Context) {
 func GetUserTweets(c *gin.Context) {
 	userID := c.Param("user_id")
 	tweets := []*models.Tweet{}
-	err := db.Unscoped().Find(&tweets, "user_id = ?", userID)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+	errs := db.Unscoped().Find(&tweets, "user_id = ?", userID).GetErrors()
+	if ReturnErrors(c, errs) {
 		return
 	}
 	c.JSON(http.StatusOK, tweets)
@@ -67,9 +62,8 @@ func GetUserTweet(c *gin.Context) {
 	id := c.Param("id")
 	userID := c.Param("user_id")
 	tweet := models.Tweet{}
-	err := db.Unscoped().First(&tweet, "id = ? AND user_id = ?", id, userID)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, err)
+	errs := db.Unscoped().First(&tweet, "id = ? AND user_id = ?", id, userID).GetErrors()
+	if ReturnErrors(c, errs) {
 		return
 	}
 	c.JSON(http.StatusOK, &tweet)
