@@ -34,3 +34,7 @@ html, body, #app {
 .tweet-image-box {
   margin: auto;
 }
+
+hr {
+  color: rgba(0, 0, 0, .12);
+}

@@ -103,9 +103,16 @@
               </div>
             </md-board>
           </md-boards>
+          <hr />
           <small class="md-caption">
-            {{ moment(new Date(tweet.created_at)).format('LLLL') }}
-            ({{ moment(new Date(tweet.deleted_at)).format('LLLL') }})
+            <p>
+              {{ moment(new Date(tweet.created_at)).format('LLLL') }}
+              ({{ moment(new Date(tweet.deleted_at)).format('LLLL') }})
+            </p>
+            <p>
+              via
+              <span v-html="tweet.source"></span>
+            </p>
           </small>
         </md-dialog-content>
       </md-dialog>
