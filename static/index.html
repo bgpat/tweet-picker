@@ -77,7 +77,9 @@
                   <md-icon v-if="tweet.user.verified">check_circle</md-icon>
                   <md-icon v-if="tweet.user.protected">lock</md-icon>
                 </span>
-                <span>@{{ tweet.user.screen_name }}</span>
+                <span>
+                  <a :href="`http://twitter.com/${tweet.user.screen_name}`">@{{ tweet.user.screen_name }}</a>
+                </span>
               </div>
             </md-list-item>
           </md-list>
