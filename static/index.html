@@ -43,7 +43,7 @@
 
       <main class="main-content">
         <md-list class="md-double-line">
-          <md-list-item v-for="tweet in tweets" :href="`#${tweet.id_str}`" @click="showTweetDetail(tweet)">
+          <md-list-item v-for="tweet in tweets.slice(0, 200)" :href="`#${tweet.id_str}`" @click="showTweetDetail(tweet)">
             <md-avatar v-if="tweet.user">
               <img :src="tweet.user.profile_image_url_https" />
             </md-avatar>
