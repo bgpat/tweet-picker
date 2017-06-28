@@ -15,6 +15,7 @@ func GetTweets(c *gin.Context) {
 	err := db.Unscoped().Find(&tweets)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err)
+		return
 	}
 	c.JSON(http.StatusOK, tweets)
 }
@@ -25,6 +26,7 @@ func GetTweet(c *gin.Context) {
 	err := db.Unscoped().First(&tweet, id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err)
+		return
 	}
 	c.JSON(http.StatusOK, &tweet)
 }
@@ -34,6 +36,7 @@ func GetUsers(c *gin.Context) {
 	err := db.Find(&users)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err)
+		return
 	}
 	c.JSON(http.StatusOK, users)
 }
@@ -44,6 +47,7 @@ func GetUser(c *gin.Context) {
 	err := db.First(&user, id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err)
+		return
 	}
 	c.JSON(http.StatusOK, &user)
 }
@@ -54,6 +58,7 @@ func GetUserTweets(c *gin.Context) {
 	err := db.Unscoped().Find(&tweets, "user_id = ?", userID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err)
+		return
 	}
 	c.JSON(http.StatusOK, tweets)
 }
@@ -65,6 +70,7 @@ func GetUserTweet(c *gin.Context) {
 	err := db.Unscoped().First(&tweet, "id = ? AND user_id = ?", id, userID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, err)
+		return
 	}
 	c.JSON(http.StatusOK, &tweet)
 }
