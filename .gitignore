@@ -1,5 +1,6 @@
 bin/
 /.env
+/docker-compose.yml
 
 /pgdata/*
 !/pgdata/.gitkeep
