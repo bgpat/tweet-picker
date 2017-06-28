@@ -47,6 +47,10 @@
               <span>{{ tweet.user.name }} @{{ tweet.user.screen_name }}</span>
               <span>{{ tweet.text }}</span>
             </div>
+            <div class="md-list-text-container" v-if="!tweet.text">
+              <span>@({{ tweet.user_id }})</span>
+              <span>Not found {{ tweet.id }}</span>
+            </div>
           </md-list-item>
         </md-list>
       </main>
