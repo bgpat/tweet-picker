@@ -19,9 +19,14 @@ services:
     env_file: ./.env
     volumes:
       - run:/run
+    depends_on:
+      - cache
+      - db
     restart: always
   cache:
     image: redis:3.0.7-alpine
+    volumes:
+      - ./cache:/data
     restart: always
   db:
     image: postgres:9.6.3-alpine
@@ -29,6 +34,8 @@ services:
       POSTGRES_PASSWORD: "tweet-picker"
       POSTGRES_USER: "tweet-picker"
       POSTGRES_DB: "tweet-picker"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
     restart: always
 volumes:
   run:
