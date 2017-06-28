@@ -83,7 +83,15 @@
           </md-list>
         </md-dialog-title>
         <md-dialog-content>
-          <pre class="tweet-detail-text">{{ tweet.text }}</pre>
+          <div class="md-body-2 tweet-detail-text">
+            <span v-for="p in parsedTweet" v-if="typeof p === 'string'">{{ p }}</span>
+            <a :href="`https://twitter.com/hashtag/${encodeURIComponent(p.text)}?src=hash&lang=ja`" target="_blank" v-else-if="p.key === 'hashtags'">#{{ p.text }}</a>
+            <a :href="`https://twitter.com/search?q=%24${encodeURIComponent(p.text)}&src=ctag`" target="_blank" v-else-if="p.key === 'symbols'">${{ p.text }}</a>
+            <a :href="p.expanded_url" target="_blank" v-else-if="p.key === 'media'">{{ p.display_url }}</a>
+            <a :href="p.expanded_url" target="_blank" v-else-if="p.key === 'urls'">{{ p.display_url }}</a>
+            <a :href="`https://twitter.com/${p.screen_name}`" target="_blank" v-else-if="p.key === 'user_mentions'">@{{ p.screen_name }}</a>
+            <br v-else />
+          </div>
           <md-boards md-controls="true" md-swipeable="true" v-if="tweet.extended_entities">
             <md-board v-for="entity in tweet.extended_entities.media">
               <div class="tweet-image-box" :style="`max-width:${entity.sizes.large.w}px`">
@@ -93,7 +101,7 @@
               </div>
             </md-board>
           </md-boards>
-          <small>
+          <small class="md-caption">
             {{ moment(new Date(tweet.created_at)).format('LLLL') }}
             ({{ moment(new Date(tweet.deleted_at)).format('LLLL') }})
           </small>

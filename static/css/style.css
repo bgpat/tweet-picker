@@ -23,8 +23,12 @@ html, body, #app {
   padding: 0;
 }
 
-.tweet-detail-text {
+.tweet-detail-text span {
   white-space: pre-wrap;
+}
+
+.tweet-detail-text span, .tweet-detail-text a {
+  overflow-wrap: break-word;
 }
 
 .tweet-image-box {
