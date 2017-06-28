@@ -1,0 +1,20 @@
+html, body, #app {
+  height: 100%;
+  overflow: hidden;
+}
+
+#app {
+  display: flex;
+  flex-flow: column;
+}
+
+.main-toolbar {
+  position: relative;
+  z-index: 10;
+}
+
+.main-content {
+  position: relative;
+  z-index: 1;
+  overflow: auto;
+}
