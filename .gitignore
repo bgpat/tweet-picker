@@ -1,4 +1,8 @@
 bin/
 /.env
-/cache
-/pgdata
+
+/pgdata/*
+!/pgdata/.gitkeep
+
+/cache/*
+!/cache/.gitkeep
