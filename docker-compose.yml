@@ -8,6 +8,7 @@ services:
       - run:/run:ro
     ports:
       - "80"
+    restart: always
   api:
     image: bgpat/tweet-picker:latest
     #build: .
@@ -18,13 +19,16 @@ services:
     env_file: ./.env
     volumes:
       - run:/run
+    restart: always
   cache:
     image: redis:3.0.7-alpine
+    restart: always
   db:
     image: postgres:9.6.3-alpine
     environment:
       POSTGRES_PASSWORD: "tweet-picker"
       POSTGRES_USER: "tweet-picker"
       POSTGRES_DB: "tweet-picker"
+    restart: always
 volumes:
   run:
