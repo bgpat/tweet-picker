@@ -12,7 +12,7 @@ var db = database.Default()
 
 func GetTweets(c *gin.Context) {
 	tweets := []*models.Tweet{}
-	errs := db.Unscoped().Find(&tweets).GetErrors()
+	errs := db.Unscoped().Order("deleted_at desc").Find(&tweets).GetErrors()
 	if ReturnErrors(c, errs) {
 		return
 	}
@@ -31,7 +31,7 @@ func GetTweet(c *gin.Context) {
 
 func GetUsers(c *gin.Context) {
 	users := []*models.User{}
-	errs := db.Find(&users).GetErrors()
+	errs := db.Order("updated_at desc").Find(&users).GetErrors()
 	if ReturnErrors(c, errs) {
 		return
 	}
@@ -51,7 +51,7 @@ func GetUser(c *gin.Context) {
 func GetUserTweets(c *gin.Context) {
 	userID := c.Param("user_id")
 	tweets := []*models.Tweet{}
-	errs := db.Unscoped().Find(&tweets, "user_id = ?", userID).GetErrors()
+	errs := db.Unscoped().Order("deleted_at desc").Find(&tweets, "user_id = ?", userID).GetErrors()
 	if ReturnErrors(c, errs) {
 		return
 	}
