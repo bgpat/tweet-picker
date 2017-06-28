@@ -83,8 +83,11 @@
           </md-list>
         </md-dialog-title>
         <md-dialog-content>
-          <pre>{{ tweet.text }}</pre>
-          <small>{{ moment(new Date(tweet.created_at)).format('LLLL') }}</small>
+          <pre class="tweet-detail-text">{{ tweet.text }}</pre>
+          <small>
+            {{ moment(new Date(tweet.created_at)).format('LLLL') }}
+            ({{ moment(new Date(tweet.deleted_at)).format('LLLL') }})
+          </small>
         </md-dialog-content>
       </md-dialog>
     </div>

@@ -22,3 +22,7 @@ html, body, #app {
 .md-list, .md-list.md-dense {
   padding: 0;
 }
+
+.tweet-detail-text {
+  white-space: pre-wrap;
+}
