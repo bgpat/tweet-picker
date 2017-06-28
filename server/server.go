@@ -20,6 +20,10 @@ func New() *Server {
 }
 
 func (s *Server) Run() error {
+	socket := os.Getenv("UNIX_SOCKET")
+	if socket != "" {
+		return s.Engine.RunUnix(socket)
+	}
 	addr := os.Getenv("ADDR")
 	port := os.Getenv("PORT")
 	if port == "" {
