@@ -18,7 +18,7 @@
               <span>All Users</span>
             </div>
           </md-list-item>
-          <md-list-item v-for="user in users" :href="`#@${user.id}`" @click="getUserTweets(user.id)">
+          <md-list-item v-for="user in users" :href="`#@${user.id_str}`" @click="getUserTweets(user.id_str)">
             <md-avatar>
               <img :src="user.profile_image_url_https" />
             </md-avatar>
@@ -43,7 +43,7 @@
 
       <main class="main-content">
         <md-list class="md-double-line">
-          <md-list-item v-for="tweet in tweets" :href="`#${tweet.id}`" @click="showTweetDetail(tweet)">
+          <md-list-item v-for="tweet in tweets" :href="`#${tweet.id_str}`" @click="showTweetDetail(tweet)">
             <md-avatar v-if="tweet.user">
               <img :src="tweet.user.profile_image_url_https" />
             </md-avatar>
@@ -57,8 +57,8 @@
               <span>{{ tweet.text }}</span>
             </div>
             <div class="md-list-text-container" v-if="!tweet.text">
-              <span>@({{ tweet.user_id }})</span>
-              <span>Tweet ({{ tweet.id }}) not found</span>
+              <span>@({{ tweet.user_id_str }})</span>
+              <span>Tweet ({{ tweet.id_str }}) not found</span>
             </div>
           </md-list-item>
         </md-list>
