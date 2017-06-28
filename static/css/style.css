@@ -26,3 +26,7 @@ html, body, #app {
 .tweet-detail-text {
   white-space: pre-wrap;
 }
+
+.tweet-image-box {
+  margin: auto;
+}

@@ -84,6 +84,15 @@
         </md-dialog-title>
         <md-dialog-content>
           <pre class="tweet-detail-text">{{ tweet.text }}</pre>
+          <md-boards md-controls="true" md-swipeable="true" v-if="tweet.extended_entities">
+            <md-board v-for="entity in tweet.extended_entities.media">
+              <div class="tweet-image-box" :style="`max-width:${entity.sizes.large.w}px`">
+                <a :href="entity.media_url_https" target="_blank">
+                  <img :src="entity.media_url_https" />
+                </a>
+              </div>
+            </md-board>
+          </md-boards>
           <small>
             {{ moment(new Date(tweet.created_at)).format('LLLL') }}
             ({{ moment(new Date(tweet.deleted_at)).format('LLLL') }})
