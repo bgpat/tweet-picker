@@ -11,10 +11,16 @@ const app = new Vue({
       this.$refs.userList.toggle();
     },
     getAllTweets() {
-      this.$http.get('/api/tweets').then(resp => this.tweets = resp.body);
+      this.$http.get('/api/tweets').then(resp => {
+        this.tweets = resp.body;
+        this.$refs.userList.close();
+      });
     },
     getUserTweets(userID) {
-      this.$http.get(`/api/users/${userID}/tweets`).then(resp => this.tweets = resp.body);
+      this.$http.get(`/api/users/${userID}/tweets`).then(resp => {
+        this.tweets = resp.body;
+        this.$refs.userList.close();
+      });
     },
   },
   mounted() {
