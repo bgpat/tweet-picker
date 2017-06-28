@@ -18,3 +18,7 @@ html, body, #app {
   z-index: 1;
   overflow: auto;
 }
+
+.md-list, .md-list.md-dense {
+  padding: 0;
+}
